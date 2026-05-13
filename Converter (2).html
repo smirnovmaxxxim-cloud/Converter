@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Конвертер величин</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .converter-card {
+            max-width: 700px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 24px 28px 36px;
+            transition: all 0.2s ease;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.9rem;
+            color: #1e2a3e;
+            margin-bottom: 8px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .sub {
+            text-align: center;
+            color: #5b6e8c;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+
+        /* Вкладки */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: #f8fafc;
+            padding: 6px;
+            border-radius: 60px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 8px;
+            background: transparent;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #334155;
+            letter-spacing: 0.3px;
+        }
+
+        .tab-btn.active {
+            background: #0077ff;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 119, 255, 0.2);
+        }
+
+        /* Блок конвертации */
+        .converter-box {
+            background: #ffffff;
+            border-radius: 24px;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1e2a3e;
+            font-size: 0.85rem;
+        }
+
+        .value-input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 1.3rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: 0.2s;
+            background: #fefefe;
+        }
+
+        .value-input:focus {
+            border-color: #0077ff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.2);
+        }
+
+        .double-select {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .select-wrapper {
+            flex: 1;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            background: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        select:focus {
+            border-color: #0077ff;
+            outline: none;
+        }
+
+        .result-area {
+            background: #f1f5f9;
+            border-radius: 24px;
+            padding: 18px 20px;
+            text-align: center;
+            margin: 10px 0 20px;
+        }
+
+        .result-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #475569;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f172a;
+            word-break: break-word;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            border: none;
+            background: #eef2ff;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1e293b;
+        }
+
+        .btn-primary {
+            background: #0077ff;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-primary:hover {
+            background: #005fcc;
+            transform: scale(0.98);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .error-message {
+            margin-top: 20px;
+            padding: 12px;
+            background: #fee2e2;
+            color: #b91c1c;
+            border-radius: 40px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        footer {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 28px;
+            color: #94a3b8;
+        }
+
+        @media (max-width: 600px) {
+            .converter-card {
+                padding: 16px 18px 24px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .double-select {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .result-value {
+                font-size: 1.6rem;
+            }
+            .tab-btn {
+                font-size: 0.85rem;
+                padding: 8px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="converter-card">
+    <h1>📐 Конвертер величин</h1>
+    <div class="sub">Длина · Масса · Температура · Объём</div>
+
+    <!-- Вкладки категорий -->
+    <div class="tabs">
+        <button class="tab-btn active" data-category="length"> Длина</button>
+        <button class="tab-btn" data-category="mass"> Масса</button>
+        <button class="tab-btn" data-category="temp"> Температура</button>
+        <button class="tab-btn" data-category="volume"> Объём</button>
+    </div>
+
+    <div class="converter-box">
+        <div class="input-group">
+            <label>Введите значение</label>
+            <input type="number" id="inputValue" class="value-input" placeholder="0" step="any" value="1">
+        </div>
+
+        <div class="double-select">
+            <div class="select-wrapper">
+                <label>Из:</label>
+                <select id="fromUnit"></select>
+            </div>
+            <div class="select-wrapper">
+                <label>В:</label>
+                <select id="toUnit"></select>
+            </div>
+        </div>
+
+        <div class="result-area">
+            <div class="result-label">Результат</div>
+            <div class="result-value" id="resultDisplay">—</div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn" id="swapBtn">⇄ Поменять местами</button>
+            <button class="btn btn-primary" id="resetBtn">⟳ Сброс</button>
+        </div>
+        <div id="errorMsg" class="error-message"></div>
+    </div>
+    <footer>Мгновенный пересчёт • Адаптивный дизайн</footer>
+</div>
+
+<script>
+    // ---------- ДАННЫЕ ДЛЯ КАТЕГОРИЙ ----------
+    const lengthUnits = [
+        { name: "Метры (m)", factor: 1 },
+        { name: "Километры (km)", factor: 0.001 },
+        { name: "Сантиметры (cm)", factor: 100 },
+        { name: "Миллиметры (mm)", factor: 1000 },
+        { name: "Мили (mi)", factor: 0.000621371 },
+        { name: "Футы (ft)", factor: 3.28084 },
+        { name: "Дюймы (in)", factor: 39.3701 }
+    ];
+
+    const massUnits = [
+        { name: "Килограммы (kg)", factor: 1 },
+        { name: "Граммы (g)", factor: 1000 },
+        { name: "Тонны (t)", factor: 0.001 },
+        { name: "Фунты (lb)", factor: 2.20462 },
+        { name: "Унции (oz)", factor: 35.274 }
+    ];
+
+    const volumeUnits = [
+        { name: "Литры (L)", factor: 1 },
+        { name: "Миллилитры (mL)", factor: 1000 },
+        { name: "Кубические метры (m³)", factor: 0.001 },
+        { name: "Галлоны (gal)", factor: 0.264172 },
+        { name: "Кварты (qt)", factor: 1.05669 }
+    ];
+
+    const tempUnits = [
+        "Цельсий (°C)",
+        "Фаренгейт (°F)",
+        "Кельвин (K)"
+    ];
+
+    let currentCategory = "length";
+
+    // DOM элементы
+    const fromSelect = document.getElementById("fromUnit");
+    const toSelect = document.getElementById("toUnit");
+    const inputValue = document.getElementById("inputValue");
+    const resultDisplay = document.getElementById("resultDisplay");
+    const errorDiv = document.getElementById("errorMsg");
+
+    // ---------- ФУНКЦИЯ КОНВЕРТАЦИИ (ТЕМПЕРАТУРА) ----------
+    function convertTemperatureValue(value, fromUnit, toUnit) {
+        let celsius = 0;
+        
+        if (fromUnit === "Цельсий (°C)") celsius = value;
+        else if (fromUnit === "Фаренгейт (°F)") celsius = (value - 32) * 5/9;
+        else if (fromUnit === "Кельвин (K)") celsius = value - 273.15;
+
+    
+        if (toUnit === "Цельсий (°C)") return celsius;
+        if (toUnit === "Фаренгейт (°F)") return celsius * 9/5 + 32;
+        if (toUnit === "Кельвин (K)") return celsius + 273.15;
+        return value;
+    }
+
+    // Главная функция пересчёта
+    function performConversion() {
+        let value = parseFloat(inputValue.value);
+        const errorElement = document.getElementById("errorMsg");
+
+        // Проверка на число
+        if (isNaN(value)) {
+            errorElement.textContent = "❌ Введите корректное число!";
+            errorElement.classList.add("show");
+            resultDisplay.textContent = "—";
+            return;
+        }
+
+        // Проверка абс. нуля для температуры
+        if (currentCategory === "temp") {
+            const fromUnit = fromSelect.value;
+            let celsiusCheck = 0;
+            if (fromUnit === "Цельсий (°C)") celsiusCheck = value;
+            else if (fromUnit === "Фаренгейт (°F)") celsiusCheck = (value - 32) * 5/9;
+            else if (fromUnit === "Кельвин (K)") celsiusCheck = value - 273.15;
+            
+            if (celsiusCheck < -273.15) {
+                errorElement.textContent = "⚠️ Температура не может быть ниже абсолютного нуля (-273.15 °C)";
+                errorElement.classList.add("show");
+                resultDisplay.textContent = "—";
+                return;
+            }
+        }
+
+        errorElement.classList.remove("show");
+        let result = 0;
+
+        try {
+            if (currentCategory === "length") {
+                const fromFactor = lengthUnits.find(u => u.name === fromSelect.value).factor;
+                const toFactor = lengthUnits.find(u => u.name === toSelect.value).factor;
+                result = (value / fromFactor) * toFactor;
+            } 
+            else if (currentCategory === "mass") {
+                const fromFactor = massUnits.find(u => u.name === fromSelect.value).factor;
+                const toFactor = massUnits.find(u => u.name === toSelect.value).factor;
+                result = (value / fromFactor) * toFactor;
+            }
+            else if (currentCategory === "volume") {
+                const fromFactor = volumeUnits.find(u => u.name === fromSelect.value).factor;
+                const toFactor = volumeUnits.find(u => u.name === toSelect.value).factor;
+                result = (value / fromFactor) * toFactor;
+            }
+            else if (currentCategory === "temp") {
+                result = convertTemperatureValue(value, fromSelect.value, toSelect.value);
+            }
+            
+            // Округление до 4 знаков
+            resultDisplay.textContent = result.toFixed(4) + " ";
+        } catch(e) {
+            resultDisplay.textContent = "Ошибка";
+        }
+    }
+
+    // Заполнить выпадающие списки в зависимости от категории
+    function populateUnits() {
+        let optionsFrom = "";
+        let optionsTo = "";
+        
+        if (currentCategory === "length") {
+            lengthUnits.forEach(unit => {
+                optionsFrom += `<option value="${unit.name}">${unit.name}</option>`;
+                optionsTo += `<option value="${unit.name}">${unit.name}</option>`;
+            });
+        } 
+        else if (currentCategory === "mass") {
+            massUnits.forEach(unit => {
+                optionsFrom += `<option value="${unit.name}">${unit.name}</option>`;
+                optionsTo += `<option value="${unit.name}">${unit.name}</option>`;
+            });
+        }
+        else if (currentCategory === "volume") {
+            volumeUnits.forEach(unit => {
+                optionsFrom += `<option value="${unit.name}">${unit.name}</option>`;
+                optionsTo += `<option value="${unit.name}">${unit.name}</option>`;
+            });
+        }
+        else if (currentCategory === "temp") {
+            tempUnits.forEach(unit => {
+                optionsFrom += `<option value="${unit}">${unit}</option>`;
+                optionsTo += `<option value="${unit}">${unit}</option>`;
+            });
+        }
+        
+        fromSelect.innerHTML = optionsFrom;
+        toSelect.innerHTML = optionsTo;
+        
+        
+        if (currentCategory === "length") {
+            toSelect.value = "Километры (km)";
+            fromSelect.value = "Метры (m)";
+        } else if (currentCategory === "mass") {
+            fromSelect.value = "Килограммы (kg)";
+            toSelect.value = "Фунты (lb)";
+        } else if (currentCategory === "volume") {
+            fromSelect.value = "Литры (L)";
+            toSelect.value = "Галлоны (gal)";
+        } else if (currentCategory === "temp") {
+            fromSelect.value = "Цельсий (°C)";
+            toSelect.value = "Фаренгейт (°F)";
+        }
+        performConversion();
+    }
+
+    // Смена категории (вкладки)
+    function switchCategory(category) {
+        currentCategory = category;
+        // Обновить активный класс у кнопок
+        document.querySelectorAll(".tab-btn").forEach(btn => {
+            if(btn.dataset.category === category) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        });
+        populateUnits();
+    }
+
+    // Поменять местами единицы
+    function swapUnits() {
+        const fromVal = fromSelect.value;
+        const toVal = toSelect.value;
+        fromSelect.value = toVal;
+        toSelect.value = fromVal;
+        performConversion();
+    }
+
+    // Сброс
+    function resetConverter() {
+        inputValue.value = "1";
+        if (currentCategory === "length") {
+            fromSelect.value = "Метры (m)";
+            toSelect.value = "Километры (km)";
+        } else if (currentCategory === "mass") {
+            fromSelect.value = "Килограммы (kg)";
+            toSelect.value = "Фунты (lb)";
+        } else if (currentCategory === "volume") {
+            fromSelect.value = "Литры (L)";
+            toSelect.value = "Галлоны (gal)";
+        } else if (currentCategory === "temp") {
+            fromSelect.value = "Цельсий (°C)";
+            toSelect.value = "Фаренгейт (°F)";
+        }
+        performConversion();
+    }
+
+    
+    inputValue.addEventListener("input", performConversion);
+    fromSelect.addEventListener("change", performConversion);
+    toSelect.addEventListener("change", performConversion);
+    document.getElementById("swapBtn").addEventListener("click", swapUnits);
+    document.getElementById("resetBtn").addEventListener("click", resetConverter);
+    
+  
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            switchCategory(btn.dataset.category);
+        });
+    });
+
+    // Инициализация
+    populateUnits();
+</script>
+</body>
+</html>
