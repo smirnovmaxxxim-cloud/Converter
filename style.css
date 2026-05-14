@@ -1,0 +1,234 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.converter-card {
+    max-width: 700px;
+    width: 100%;
+    background: white;
+    border-radius: 28px;
+    box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 24px 28px 36px;
+    transition: all 0.2s ease;
+}
+
+h1 {
+    text-align: center;
+    font-size: 1.9rem;
+    color: #1e2a3e;
+    margin-bottom: 8px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+}
+
+.sub {
+    text-align: center;
+    color: #5b6e8c;
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 15px;
+}
+
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+    background: #f8fafc;
+    padding: 6px;
+    border-radius: 60px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px 8px;
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: 0.2s;
+    color: #334155;
+    letter-spacing: 0.3px;
+}
+
+.tab-btn.active {
+    background: #0077ff;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 119, 255, 0.2);
+}
+
+.converter-box {
+    background: #ffffff;
+    border-radius: 24px;
+}
+
+.input-group {
+    margin-bottom: 24px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1e2a3e;
+    font-size: 0.85rem;
+}
+
+.value-input {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1.3rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: 0.2s;
+    background: #fefefe;
+}
+
+.value-input:focus {
+    border-color: #0077ff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.2);
+}
+
+.double-select {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.select-wrapper {
+    flex: 1;
+}
+
+select {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 20px;
+    background: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+select:focus {
+    border-color: #0077ff;
+    outline: none;
+}
+
+.result-area {
+    background: #f1f5f9;
+    border-radius: 24px;
+    padding: 18px 20px;
+    text-align: center;
+    margin: 10px 0 20px;
+}
+
+.result-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #475569;
+}
+
+.result-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0f172a;
+    word-break: break-word;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn {
+    border: none;
+    background: #eef2ff;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.2s;
+    color: #1e293b;
+}
+
+.btn-primary {
+    background: #0077ff;
+    color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary:hover {
+    background: #005fcc;
+    transform: scale(0.98);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.error-message {
+    margin-top: 20px;
+    padding: 12px;
+    background: #fee2e2;
+    color: #b91c1c;
+    border-radius: 40px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+}
+
+footer {
+    font-size: 0.7rem;
+    text-align: center;
+    margin-top: 28px;
+    color: #94a3b8;
+}
+
+@media (max-width: 600px) {
+    .converter-card {
+        padding: 16px 18px 24px;
+    }
+    h1 {
+        font-size: 1.5rem;
+    }
+    .double-select {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .result-value {
+        font-size: 1.6rem;
+    }
+    .tab-btn {
+        font-size: 0.85rem;
+        padding: 8px 5px;
+    }
+}
